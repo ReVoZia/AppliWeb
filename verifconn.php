@@ -14,9 +14,9 @@ $sql = "CALL ajouterReservationWeb (?,?,?,?,?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$Nom, $Prenom, $maile, $tel, $dateA, $dateD, $numchambre]);
 
-$sql = "UPDATE chambre SET dispo = '1' WHERE chambreid = ?";
+$sql = "CALL updateChambre(?,?)";
 $stmt = $conn->prepare($sql);
-$stmt -> execute([$numchambre]);
+$stmt -> execute(['1', $numchambre]);
 
-$sm = "Nouvelle réservation effectuer";
+$sm = "Nouvelle reservation effectuer";
 header("Location: Reserver.php?error=$sm");

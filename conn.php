@@ -1,9 +1,10 @@
 <?php
 
 $sName = "127.0.0.1:8889";
-$uName = "matheo";
-$pass = "0000";
-$db_name = "ReservationAP";
+//$sName = "172.29.108.29:3306";
+$uName = "prof1234";
+$pass = "prof_1234!";
+$db_name = "reservationap";
 
 try{
     $conn = new PDO("mysql:host=$sName;dbname=$db_name", $uName, $pass);

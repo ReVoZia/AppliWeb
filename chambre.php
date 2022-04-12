@@ -1,7 +1,7 @@
 <?php
 
 function getChambreDispo($conn){
-    $sql = "SELECT chambreid FROM Chambre WHERE dispo = 0 ORDER BY chambreid";
+    $sql = "CALL chambreDispo();";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     if ($stmt->rowCount() > 1){

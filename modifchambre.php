@@ -5,7 +5,7 @@ $Nom = $_POST('Name');
 $newnumchambre = $_POST('nnc');
 $anciennumchambre = $_POST('anc');
 
-$sql = "UPDATE UtilisateurW SET numchambre = ? WHERE nom = ? AND numchambre = ?";
+$sql = "CALL updateUserW(?,?,?)";
 $stmt = $conn->prepare($sql);
 $stmt->execute([$Nom, $newnumchambre, $anciennumchambre]);
     
