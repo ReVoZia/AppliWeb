@@ -1,10 +1,10 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : lun. 11 avr. 2022 à 11:58
--- Version du serveur : 5.7.34
+-- Généré le : mar. 12 avr. 2022 à 11:08
+-- Version du serveur :  5.7.34
 -- Version de PHP : 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,8 +18,65 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `ReservationAP`
+-- Base de données : `reservationap`
 --
+
+DELIMITER $$
+--
+-- Procédures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addReservation` (IN `paramNom` VARCHAR(255), IN `paramCoordonne` VARCHAR(255), IN `paramNbrPerson` INT, IN `paramAdulte` INT, IN `paramEnfant` INT, IN `paramNumChambre` VARCHAR(255))  BEGIN
+	INSERT INTO Reservation (nom, coordonne, nbreperson, adulte, enfant, numchambre)
+	VALUES (paramNom, paramCoordonne, paramNbrPerson, paramAdulte, paramEnfant, paramNumChambre);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ajouterReservationWeb` (IN `paramNom` VARCHAR(255), IN `paramPrenom` VARCHAR(255), IN `paramMail` VARCHAR(255), IN `paramTel` INT, IN `paramDateA` DATE, IN `paramDateD` DATE, IN `paramNumChambre` VARCHAR(255))  BEGIN
+	INSERT INTO UtilisateurW (Nom, Prenom, maile, tel, dateA, dateD, numchambre)
+	VALUES (paramNom, paramPrenom, paramMail, paramTel, paramDateA, paramDateD, paramNumChambre);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `chambreDispo` ()  BEGIN
+	SELECT chambreid FROM Chambre
+	WHERE dispo = 0 
+	ORDER BY chambreid;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteReservation` (IN `paramId` INT)  BEGIN
+	DELETE FROM Reservation
+	WHERE id = paramId;	
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recupReservation` (IN `paramId` INT)  BEGIN
+	SELECT * FROM Reservation
+	WHERE id = paramId;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `recupReservations` ()  BEGIN
+	SELECT * FROM Reservation;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateChambre` (IN `paramDispo` INT, IN `paramChambreId` VARCHAR(255))  BEGIN
+	UPDATE Chambre
+	SET dispo = 1
+    WHERE chambreid = paramChambreId;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateReservation` (IN `paramNom` VARCHAR(255), IN `paramCoordonne` VARCHAR(255), IN `paramNbrPerson` INT, IN `paramAdulte` INT, IN `paramEnfant` INT, IN `paramNumChambre` VARCHAR(255), IN `paramChambre` VARCHAR(255))  BEGIN
+	UPDATE Reservation 
+	SET nom = paramNom, coordonne = paramCoordonne, nbreperson = paramNbrPerson, adulte = paramAdulte, enfant = paramEnfant, numchambre = paramNumChambre
+	WHERE numchambre = paramChambre;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUserW` (IN `paramNumChambre` VARCHAR(255), IN `paramNom` VARCHAR(255), IN `paramChambre` VARCHAR(255))  BEGIN
+	UPDATE UtilisateurW SET numchambre = paramNumChambre WHERE nom = paramNom AND numchambre = paramChambre;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Utilisateur` (IN `paramEmail` VARCHAR(255))  BEGIN
+	SELECT * FROM Utilisateur
+	WHERE mail = paramEmail;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -39,7 +96,7 @@ CREATE TABLE `Chambre` (
 
 INSERT INTO `Chambre` (`chambreid`, `taille`, `dispo`) VALUES
 ('D101', 14, 1),
-('D102', 14, 0),
+('D102', 14, 1),
 ('D103', 14, 0),
 ('D104', 14, 0),
 ('D105', 14, 0);
@@ -65,7 +122,7 @@ CREATE TABLE `Reservation` (
 --
 
 INSERT INTO `Reservation` (`id`, `nom`, `coordonne`, `nbreperson`, `adulte`, `enfant`, `numchambre`) VALUES
-(1, 'bekmann', 'mat', 3, 1, 2, 'D102');
+(1, 'bekmann', 'mat', 3, 1, 2, 'D101');
 
 -- --------------------------------------------------------
 
@@ -108,6 +165,13 @@ CREATE TABLE `UtilisateurW` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Déchargement des données de la table `UtilisateurW`
+--
+
+INSERT INTO `UtilisateurW` (`id`, `Nom`, `Prenom`, `maile`, `tel`, `dateA`, `dateD`, `numchambre`) VALUES
+(1, 'Jean', 'Lasale', 'j.lasale@labiz.com', 600000000, '2022-04-12', '2022-04-16', 'D102');
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -145,7 +209,7 @@ ALTER TABLE `UtilisateurW`
 -- AUTO_INCREMENT pour la table `Reservation`
 --
 ALTER TABLE `Reservation`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `Utilisateur`
@@ -157,7 +221,7 @@ ALTER TABLE `Utilisateur`
 -- AUTO_INCREMENT pour la table `UtilisateurW`
 --
 ALTER TABLE `UtilisateurW`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées
