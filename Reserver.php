@@ -1,6 +1,6 @@
 <?php
-include 'conn.php';
-include 'chambre.php';
+include 'app/conn.php';
+include 'app/http/chambre.php';
 
 $chambreDispo = getChambreDispo($conn);
 
@@ -22,8 +22,6 @@ $chambreDispo = getChambreDispo($conn);
 
 	</head>
 	<body>
-
-	<form method="post" action="verifconn.php">
 
 	<section class="ftco-section">
 		<div class="container">
@@ -51,7 +49,7 @@ $chambreDispo = getChambreDispo($conn);
 				      		<div id="form-message-success" class="mb-4">
 				            Votre réservation à bien était pris en compte, merci de votre confiance.
 				      		</div>
-									<form method="POST" id="contactForm" name="contactForm" class="contactForm">
+									<form method="POST" action="/app/http/addChambre.php">
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
@@ -161,7 +159,6 @@ $chambreDispo = getChambreDispo($conn);
   <script src="reservation/js/bootstrap.min.js"></script>
   <script src="reservation/js/jquery.validate.min.js"></script>
   <script src="reservation/js/main.js"></script>
-	</form>
 	</body>
 </html>
 
