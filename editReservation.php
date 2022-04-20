@@ -48,11 +48,7 @@ $reservation = getReservationByUtil($_GET['id'],$conn);
                             <div class="col-md-6">
                                 <div class="contact-wrap w-100 p-lg-5 p-4">
                                     <h3 class="mb-4">Réservation de <?=$utilisateur['nom']?> <?=$utilisateur['prenom']?> :</h3>
-                                    <div id="form-message-warning" class="mb-4"></div>
-                                    <div id="form-message-success" class="mb-4">
-                                        Votre réservation à bien était pris en compte, merci de votre confiance.
-                                    </div>
-                                    <form method="POST" id="contactForm" name="contactForm" class="contactForm" action="">
+                                    <form method="POST" action="app/http/editChambre.php">
                                         <div class="row">
 
 
@@ -97,6 +93,9 @@ $reservation = getReservationByUtil($_GET['id'],$conn);
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            <!-- INPUT INVISIBLE POUR LA CHAMBRE -->
+                                            <input type="text" style="visibility: hidden;" name="NumChambreBase" value="<?=$reservation['numchambre']?>">
 
                                             <div class="col-md-12">
                                                 <div class="form-group">

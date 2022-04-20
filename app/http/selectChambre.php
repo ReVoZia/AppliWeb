@@ -22,5 +22,5 @@ if ($option === 'Modifier'){
 
 
     $sm = "Reservation supprimer";
-    header("Location: selectReservation.php?error=$sm");
+    header("Location: ../../selectReservation.php?error=$sm");
 }
