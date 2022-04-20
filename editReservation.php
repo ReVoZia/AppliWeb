@@ -1,8 +1,11 @@
 <?php
 include 'app/conn.php';
 include 'app/http/chambre.php';
+include 'app/http/utilisateur.php';
 
-$reservation = getReservationByName($_GET['nom'],$conn);
+$chambreDispo = getChambreDispo($conn);
+$utilisateur = getUtilById($_GET['id'],$conn);
+$reservation = getReservationByUtil($_GET['id'],$conn);
 
 ?>
 <!doctype html>
@@ -22,8 +25,6 @@ $reservation = getReservationByName($_GET['nom'],$conn);
 
 </head>
 <body>
-
-<form method="post" action="verifconn.php">
 
     <section class="ftco-section">
         <div class="container">
@@ -46,49 +47,49 @@ $reservation = getReservationByName($_GET['nom'],$conn);
                         <div class="row no-gutters">
                             <div class="col-md-6">
                                 <div class="contact-wrap w-100 p-lg-5 p-4">
-                                    <h3 class="mb-4">Création d'une Réservation :</h3>
+                                    <h3 class="mb-4">Réservation de <?=$utilisateur['nom']?> <?=$utilisateur['prenom']?> :</h3>
                                     <div id="form-message-warning" class="mb-4"></div>
                                     <div id="form-message-success" class="mb-4">
                                         Votre réservation à bien était pris en compte, merci de votre confiance.
                                     </div>
                                     <form method="POST" id="contactForm" name="contactForm" class="contactForm" action="">
                                         <div class="row">
+
+
+                                            <!-- INPUT INVISIBLE POUR L'UTILISATEUR -->
+                                            <input type="number" style="visibility: hidden;" name="UtilId" value="<?=$utilisateur['id']?>">
+
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="Name" id="Name" placeholder="Nom" value="<?=$reservation['nom']?>">
+                                                    <input type="number" class="form-control" name="NbPersonne"  placeholder="Nombre de personne" value="<?=$reservation['nbreperson']?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="Prenom" id="Prenom" placeholder="Prénom" value="<?=$reservation['prenom']?>">
+                                                    <input type="number" class="form-control" name="NbAdulte"  placeholder="Nombre d'adulte" value="<?=$reservation['adulte']?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" value="<?=$reservation['mail']?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="tel" class="form-control" name="tel" id="tel" placeholder="Téléphone" value="<?=$reservation['telephone']?>">
+                                                    <input type="number" class="form-control" name="NbEnfant"  placeholder="Nombre d'enfant" value="<?=$reservation['enfant']?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="date" class="form-control" name="arriver" id="arriver" placeholder="Date Arrivé" value="<?=$reservation['nom']?>">
+                                                    <input type="date" class="form-control" name="Arriver"  placeholder="Date Arrivé" value="<?=$reservation['date_A']?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="date" class="form-control" name="depart" id="depart" placeholder="Date Départ" value="<?=$reservation['nom']?>">
+                                                    <input type="date" class="form-control" name="Depart"  placeholder="Date Départ" value="<?=$reservation['date_D']?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="numchambre" id="numchambre">
-                                                        <option><?=$reservation['nom']?></option>
+                                                    <select class="form-select" name="NumChambre" id="NumChambre">
+                                                        <option><?=$reservation['numchambre']?></option>
                                                         <?php
                                                         foreach ($chambreDispo as $chambre) { ?>
                                                             <option><?= $chambre['chambreid'] ?></option>
@@ -101,8 +102,10 @@ $reservation = getReservationByName($_GET['nom'],$conn);
                                                 <div class="form-group">
                                                     <input type="submit" value="Valider" class="btn btn-primary">
                                                     <div class="submitting"></div>
+                                                    <a href="index.php"> <input type="button" value="Retour" class="btn btn-dark"> </a>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </form>
                                 </div>
@@ -162,7 +165,7 @@ $reservation = getReservationByName($_GET['nom'],$conn);
     <script src="reservation/js/bootstrap.min.js"></script>
     <script src="reservation/js/jquery.validate.min.js"></script>
     <script src="reservation/js/main.js"></script>
-</form>
+
 </body>
 </html>
 

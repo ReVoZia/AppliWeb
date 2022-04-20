@@ -1,6 +1,7 @@
 <?php
 include 'app/conn.php';
 include 'app/http/chambre.php';
+include 'app/http/utilisateur.php';
 
 $reservations = getAllReservation($conn);
 
@@ -65,8 +66,10 @@ $reservations = getAllReservation($conn);
                                                 <div class="form-group">
                                                     <select class="form-select" name="nomreservation" id="nomreservation">
                                                         <?php
-                                                        foreach ($reservations as $reservation) { ?>
-                                                            <option><?= $reservation['nom'] ?></option>
+                                                        foreach ($reservations as $reservation) {
+                                                            echo $reservation['util_id'];
+                                                            $utilisateur = getUtilById($reservation['util_id'], $conn); ?>
+                                                            <option><?=$utilisateur['id']?> <?=$utilisateur['nom']?> <?=$utilisateur['prenom']?></option>
                                                         <?php } ?>
                                                     </select>
                                                 </div>
@@ -76,7 +79,7 @@ $reservations = getAllReservation($conn);
                                                 <div class="form-group">
                                                     <input type="submit" value="Envoyer" class="btn btn-primary">
                                                     <div class="submitting"></div>
-
+                                                    <a href="index.php"> <input type="button" value="Retour" class="btn btn-dark"> </a>
                                                 </div>
                                             </div>
                                         </div>

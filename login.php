@@ -1,8 +1,8 @@
 
     <!doctype html>
-    <html lang="en">
+    <html lang="fr">
     <head>
-        <title>EASTMASTER - RÉSERVATION</title>
+        <title>EASTMASTER - CONNEXION</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -44,12 +44,12 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input type="email" class="form-control" name="email" id="email" placeholder="Email">
+                                                        <input type="email" class="form-control" name="Email" placeholder="Email">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe">
+                                                        <input type="password" class="form-control" name="Pass"  placeholder="Mot de passe">
                                                     </div>
                                                 </div>
 
@@ -57,6 +57,7 @@
                                                     <div class="form-group">
                                                         <input type="submit" value="Valider" class="btn btn-primary">
                                                         <div class="submitting"></div>
+                                                        <a href="index.php"> <input type="button" value="Retour" class="btn btn-dark"> </a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -3,13 +3,13 @@ session_start();
 
 # SI L'EMAIL & LE MOT DE PASSE SONT ENVOYER
 if(isset($_POST['Email']) &&
-   isset($_POST['pass'])){
+   isset($_POST['Pass'])){
 
    # FICHIER DE CONNEXION À LA BASE DE DONNÉES
    include '../conn.php';
 
    # RECUPERER LA REQUETE POST
-   $password = $_POST['pass'];
+   $password = $_POST['Pass'];
    $email = $_POST['Email'];
    
    # VALIDATION
@@ -34,35 +34,36 @@ if(isset($_POST['Email']) &&
           $stmt->closeCursor();
 
           # SI LE NOM D'UTILISATEUR EST STRICTEMENT EGALE
-          if ($user['Email'] === $email) {
+          if ($user['mail'] == $email) {
 
                # VERIFIER LE MOT DE PASSE ENCRYPTER
-              if (hash('sha512', $password) == $user['Password']) {
+              if (hash('sha512', $password) == $user['mdp']) {
 
                     # CONNECTION REUSSI / CREE LA SESSION
-                    $_SESSION['Email'] = $user['Email'];
-                    $_SESSION['Nom'] = $user['Nom'];
-                    $_SESSION['Prenom'] = $user['Prenom'];
-                    $_SESSION['Adresse'] = $user['Adresse'];
-                    $_SESSION['Telephone'] = $user['Telephone'];
-                    $_SESSION['Id'] = $user['Id'];
+                    $_SESSION['Email'] = $user['mail'];
+                    $_SESSION['Nom'] = $user['nom'];
+                    $_SESSION['Prenom'] = $user['prenom'];
+                    $_SESSION['Adresse'] = $user['adresse'];
+                    $_SESSION['Telephone'] = $user['telephone'];
+                    $_SESSION['Id'] = $user['id'];
+                    $_SESSION['Role'] = $user['role'];
 
                     # REDIRECTION
                     header("Location: ../../index.php");
 
               }else {
                 # MESSAGE ERREUR + REDIRECTION
-                $em = "Email ou Mot de Passe Incorecte";
-                header("Location: ../../login.php?error=$em");
+                $em = "Mot de Passe Incorecte";
+                header("Location: ../../login.php?error=$user");
               }
           }else {
               # MESSAGE ERREUR + REDIRECTION
-              $em = "Email ou Mot de Passe Incorecte";
+              $em = "Email ou Mot de Passe Incorecte test";
               header("Location: ../../login.php?error=$em");
           }
        }
    }
 }else {
-  header("Location: ../../connect.php");
+  header("Location: ../../index.php");
   exit;
 }

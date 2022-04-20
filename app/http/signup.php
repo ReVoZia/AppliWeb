@@ -1,11 +1,12 @@
 <?php  
 
 # VERIFIER LE NOM D'UTILISATEUR, LE MOT DE PASSE ET LE NOM
-if(isset($_POST['Name']) &&
-   isset($_POST['Telephone']) &&
-   isset($_POST['Email']) &&
+if(isset($_POST['Nom']) &&
    isset($_POST['Prenom']) &&
-   isset($_POST['pass']) ){
+   isset($_POST['Telephone']) &&
+    isset($_POST['Adresse']) &&
+   isset($_POST['Email']) &&
+   isset($_POST['Pass']) ){
 
    # FICHIER DE CONNEXION À LA BASE DE DONNÉES
    include '../conn.php';
@@ -16,7 +17,8 @@ if(isset($_POST['Name']) &&
    $adresse = $_POST['Adresse'];
    $telephone = $_POST['Telephone'];
    $email = $_POST['Email'];
-   $password = $_POST['pass'];
+   $password = $_POST['Pass'];
+   $role = $_POST['Role'];
 
    # CREE UN FORMAT URL
    $data = 'nom='.$nom.'&prenom='.$prenom;
@@ -54,22 +56,22 @@ if(isset($_POST['Name']) &&
            exit;
    }else {
 
-       // ON HASH LE MOT DE PASSE
+       # ON HASH LE MOT DE PASSE
        $password = hash('sha512', $password);
 
-       # CREE UN NOUVELLE UTILISATEUR AVEC UNE IMAGE PAR DEFAUT
-       $sql = "CALL addUser(?,?,?,?,?,?)";
+       # CREE UN NOUVELLE UTILISATEUR
+       $sql = "CALL addUtil(?,?,?,?,?,?,?)";
        $stmt = $conn->prepare($sql);
-       $stmt->execute([$nom, $prenom, $adresse, $telephone, $email, $password]);
+       $stmt->execute([$nom, $prenom, $password, $email, $adresse, $telephone, $role]);
 
        # MESSAGE DE REUSSITE + REDIRECTION
        $sm = "Nouveau Compte Cree";
-       header("Location: ../../login.php?success=$sm");
+       header("Location: ../../login.php?erreur=$sm");
 
    }
 
 }else {
     $em = "Il manque des informations";
-	header("Location: ../../signup.phperreur=$em");
+	header("Location: ../../signup.php?erreur=$em");
    	exit;
 }

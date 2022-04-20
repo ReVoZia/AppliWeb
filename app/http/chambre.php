@@ -14,10 +14,11 @@ function getChambreDispo($conn){
 }
 
 function getAllReservation($conn){
-    $sql = "CALL recupReservation();";
+    $sql = "CALL recupReservations();";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-    if ($stmt->rowCount() > 1){
+
+    if ($stmt->rowCount() > 0){
         $reservations = $stmt->fetchAll();
         return $reservations;
     }else{
@@ -26,11 +27,11 @@ function getAllReservation($conn){
     }
 }
 
-function getReservationByName($nom, $conn){
-    $sql = "CALL recupReservationByNom(?);";
+function getReservationByUtil($utilId, $conn){
+    $sql = "CALL recupReservationByUtil(?);";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([$nom]);
-    if ($stmt->rowCount() > 1){
+    $stmt->execute([$utilId]);
+    if ($stmt->rowCount() == 1){
         $reservation = $stmt->fetch();
         return $reservation;
     }else{

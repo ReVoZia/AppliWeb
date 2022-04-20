@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 include 'app/conn.php';
 include 'app/http/chambre.php';
 
@@ -44,48 +47,44 @@ $chambreDispo = getChambreDispo($conn);
 						<div class="row no-gutters">
 							<div class="col-md-6">
 								<div class="contact-wrap w-100 p-lg-5 p-4">
+
 									<h3 class="mb-4">Création d'une Réservation :</h3>
-									<div id="form-message-warning" class="mb-4"></div> 
-				      		<div id="form-message-success" class="mb-4">
-				            Votre réservation à bien était pris en compte, merci de votre confiance.
-				      		</div>
-									<form method="POST" action="/app/http/addChambre.php">
+
+									<form method="POST" action="app/http/addChambre.php">
 										<div class="row">
+                                            <!-- INPUT INVISIBLE POUR L'UTILISATEUR -->
+											<input type="number" style="visibility: hidden;" name="UtilId" value="<?=$_SESSION['Id']?>">
+
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="Name" id="Name" placeholder="Nom">
+													<input type="number" class="form-control" name="NbPersonne"  placeholder="Nombre de personne">
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="Prenom" id="Prenom" placeholder="Prénom">
+													<input type="number" class="form-control" name="NbAdulte"  placeholder="Nombre d'adulte">
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="email" class="form-control" name="email" id="email" placeholder="Email">
-												</div>
-											</div>
-											<div class="col-md-12">
-												<div class="form-group">
-													<input type="tel" class="form-control" name="tel" id="tel" placeholder="Téléphone">
+													<input type="number" class="form-control" name="NbEnfant"  placeholder="Nombre d'enfant">
 												</div>
 											</div>
 
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="date" class="form-control" name="arriver" id="arriver" placeholder="Date Arrivé">
+													<input type="date" class="form-control" name="Arriver"  placeholder="Date Arrivé">
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="date" class="form-control" name="depart" id="depart" placeholder="Date Départ">
+													<input type="date" class="form-control" name="Depart"  placeholder="Date Départ">
 												</div>
 											</div>
 
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="numchambre" id="numchambre">
+                                                    <select class="form-select" name="NumChambre" id="NumChambre">
                                                         <?php
                                                         foreach ($chambreDispo as $chambre) { ?>
                                                             <option><?= $chambre['chambreid'] ?></option>
@@ -98,6 +97,7 @@ $chambreDispo = getChambreDispo($conn);
 												<div class="form-group">
 													<input type="submit" value="Valider" class="btn btn-primary">
 													<div class="submitting"></div>
+                                                    <a href="index.php"> <input type="button" value="Retour" class="btn btn-dark"> </a>
 												</div>
                                             </div>
 										</div>

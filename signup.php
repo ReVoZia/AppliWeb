@@ -1,7 +1,11 @@
+<?php
+session_start();
+
+?>
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <title>EASTMASTER - RÉSERVATION</title>
+    <title>EASTMASTER - S'ENREGISTRER</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -20,10 +24,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-5">
-                    <h2 class="heading-section">Réserver votre chambre</h2>
+                    <h2 class="heading-section">S'enregistrer</h2>
                 </div>
             </div>
 
+            <!-- SI IL Y A UNE ERREUR -->
             <?php if(isset($_GET['error'])) { ?>
                 <div class="alert alert-dismissible alert-info">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -35,52 +40,85 @@
                 <div class="col-md-10">
                     <div class="wrapper">
                         <div class="row no-gutters">
+
                             <div class="col-md-6">
                                 <div class="contact-wrap w-100 p-lg-5 p-4">
                                     <h3 class="mb-4">Crée un compte :</h3>
 
                                     <form method="POST" action="app/http/signup.php">
+
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="Name" id="Name" placeholder="Nom">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="Prenom" id="Prenom" placeholder="Prénom">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="tel" class="form-control" name="tel" id="tel" placeholder="Téléphone">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <input type="password" class="form-control" name="pass" id="pass" placeholder="Mot de passe">
+                                                    <input type="text" class="form-control" name="Nom" placeholder="Nom">
                                                 </div>
                                             </div>
 
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="submit" value="Valider" class="btn btn-primary">
-                                                    <div class="submitting"></div>
+                                                    <input type="text" class="form-control" name="Prenom"  placeholder="Prénom">
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="email" class="form-control" name="Email"  placeholder="Email">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="Adresse"  placeholder="Adresse">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="tel" class="form-control" name="Telephone" placeholder="Téléphone">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="password" class="form-control" name="Pass" placeholder="Mot de passe">
+                                                </div>
+                                            </div>
+
+                                            <?php if (isset($_SESSION['Role']) && $_SESSION['Role'] === 'ADMIN') { ?>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <select class="form-select" name="Role">
+                                                            <option>ADMIN</option>
+                                                            <option>USER</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            <?php } else { ?>
+                                            <!-- INPUT INVISIBLE POUR LE ROLE -->
+                                            <input type="text" name="Role" value="USER" style="visibility: hidden;">
+                                            <?php } ?>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <input type="submit" value="Valider" class="btn btn-primary">
+                                                    <div class="submitting"></div>
+                                                    <a href="index.php"> <input type="button" value="Retour" class="btn btn-dark"> </a>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
+
+
                             <div class="col-md-6 d-flex align-items-stretch">
                                 <div class="info-wrap w-100 p-lg-5 p-4 img">
+
                                     <h3>Besoin d'informations ?</h3>
                                     <p class="mb-4">Contacter nous pour plus d'informations concernant votre réservation</p>
+
                                     <div class="dbox w-100 d-flex align-items-start">
                                         <div class="icon d-flex align-items-center justify-content-center">
                                             <span class="fa fa-map-marker"></span>
@@ -89,6 +127,7 @@
                                             <p><span>Adresse:</span> 30 rue Edmond Rostand-13431 Marseille Cedex 06</p>
                                         </div>
                                     </div>
+
                                     <div class="dbox w-100 d-flex align-items-center">
                                         <div class="icon d-flex align-items-center justify-content-center">
                                             <span class="fa fa-phone"></span>
@@ -97,6 +136,7 @@
                                             <p><span>Téléphone:</span> <a href="tel://1234567920">04 05 06 07 08</a></p>
                                         </div>
                                     </div>
+
                                     <div class="dbox w-100 d-flex align-items-center">
                                         <div class="icon d-flex align-items-center justify-content-center">
                                             <span class="fa fa-paper-plane"></span>
@@ -105,6 +145,7 @@
                                             <p><span>Email:</span> <a href="mailto:info@yoursite.com">hotel.Eastmaster@gmail.com</a></p>
                                         </div>
                                     </div>
+
                                     <div class="dbox w-100 d-flex align-items-center">
                                         <div class="icon d-flex align-items-center justify-content-center">
                                             <span class="fa fa-globe"></span>
@@ -112,19 +153,18 @@
                                         <div class="text pl-3">
                                             <p><span>Website</span> <a href="#">EASTMASTER.com</a></p>
                                         </div>
-
-
-
                                     </div>
-
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
+
     </section>
 
     <script src="reservation/js/jquery.min.js"></script>
